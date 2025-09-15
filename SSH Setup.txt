@@ -148,5 +148,3 @@ ssh your_windows_username@windows_ip 'python C:/Users/yourname/Desktop/test.py' 
 | SCP from Windows to Android | SSH client on Windows | `scp -P 8022 file u0_a123@android_ip:path` |
 
 ---
-
-Let me know if you’d like to automate this or secure it with SSH keys (no passwords).
