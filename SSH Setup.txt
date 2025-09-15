@@ -1,0 +1,152 @@
+Sure! Here’s a **complete step-by-step guide** for using **Termux on Android** to act as:
+
+* ✅ an **SSH client** (to connect to your Windows machine)
+* ✅ an **SSH server** (to allow Windows to connect to Android)
+
+So you can use `scp` or run scripts **in both directions**.
+
+---
+
+## 📲 First, Install Termux (if not already installed)
+
+Get it from F-Droid (recommended):
+
+* [https://f-droid.org/packages/com.termux/](https://f-droid.org/packages/com.termux/)
+
+---
+
+## 🧰 Step 1: Set Up Termux as an SSH **Client**
+
+> So Termux can SSH into your Windows machine and use `scp` or run scripts there.
+
+### ✅ 1. Install `openssh`
+
+```bash
+pkg update
+pkg install openssh
+```
+
+### ✅ 2. Use SSH to connect to Windows
+
+Make sure your **Windows machine has OpenSSH Server installed and running**:
+
+* Settings → Optional Features → Install **OpenSSH Server**
+* Start the SSH server:
+
+  ```powershell
+  Start-Service sshd
+  ```
+
+Now, in Termux:
+
+```bash
+ssh your_windows_username@windows_ip_address
+```
+
+You'll be prompted for the password.
+
+---
+
+### ✅ 3. Use SCP from Termux (client) to copy files **to** Windows
+
+```bash
+scp /sdcard/some_file.txt your_windows_username@windows_ip:/Users/yourname/Desktop/
+```
+
+Or to copy a script **from** Windows to Android:
+
+```bash
+scp your_windows_username@windows_ip:/Users/yourname/script.py /data/data/com.termux/files/home/
+```
+
+---
+
+## 🖥️ Step 2: Set Up Termux as an SSH **Server**
+
+> So you can SSH from Windows into your Android device (Termux), run scripts, or use `scp`.
+
+### ✅ 1. Create a new SSH key (optional but recommended)
+
+```bash
+ssh-keygen -t rsa
+```
+
+### ✅ 2. Start the SSH server
+
+```bash
+sshd
+```
+
+By default, Termux's SSH server runs on **port 8022**, not 22.
+
+### ✅ 3. Find your Android's IP address
+
+```bash
+ip a
+```
+
+Look for something like `wlan0`, e.g., `192.168.1.123`
+
+---
+
+### ✅ 4. Connect from Windows (using PowerShell or CMD)
+
+```bash
+ssh -p 8022 u0_a123@192.168.1.123
+```
+
+**Note**: Replace `u0_a123` with your actual Termux username, found by running `whoami` in Termux.
+
+---
+
+### ✅ 5. Copy files using SCP from Windows to Termux
+
+```bash
+scp -P 8022 somefile.txt u0_a123@192.168.1.123:/data/data/com.termux/files/home/
+```
+
+> This sends `somefile.txt` from Windows to your Android's Termux home directory.
+
+---
+
+## 🧪 Example: Run a Windows Script from Termux
+
+If you want to run a script located on your Windows machine from Termux:
+
+```bash
+ssh your_windows_username@windows_ip 'python C:/Users/yourname/Desktop/test.py'
+```
+
+Or fetch output:
+
+```bash
+ssh your_windows_username@windows_ip 'python C:/Users/yourname/Desktop/test.py' > result.txt
+```
+
+---
+
+## ✅ Permissions & Notes
+
+* On Android 10+, Termux may be **sandboxed**, so accessing `/sdcard/` might require permission.
+* Grant permission:
+
+  ```bash
+  termux-setup-storage
+  ```
+* This mounts `/sdcard` to `$HOME/storage/shared`
+
+---
+
+## ✅ Summary
+
+| Goal                        | Termux Role           | Command                                    |
+| --------------------------- | --------------------- | ------------------------------------------ |
+| SSH into Windows            | SSH client            | `ssh user@windows_ip`                      |
+| SCP from Android to Windows | SSH client            | `scp file user@windows_ip:path`            |
+| Termux SSH server           | SSH server            | `sshd` (port 8022)                         |
+| SSH from Windows to Android | SSH client on Windows | `ssh -p 8022 u0_a123@android_ip`           |
+| SCP from Windows to Android | SSH client on Windows | `scp -P 8022 file u0_a123@android_ip:path` |
+
+---
+
+Let me know if you’d like to automate this or secure it with SSH keys (no passwords).
