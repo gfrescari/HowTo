@@ -1,0 +1,129 @@
+Absolutely! Here’s a **comprehensive cheat sheet** comparing **common Bash/Linux commands** with their **PowerShell equivalents**. I’ve structured it by category so it’s easy to reference.
+
+> 💡 Tip: Some commands look the same but behave differently in PowerShell (especially when it comes to flags and text vs objects).
+
+---
+
+## **📁 File & Directory Management**
+
+| Bash / Linux     | PowerShell                         | Description                |
+| ---------------- | ---------------------------------- | -------------------------- |
+| `ls`             | `Get-ChildItem` / `ls` / `dir`     | List files & directories   |
+| `pwd`            | `Get-Location` / `pwd`             | Print current directory    |
+| `cd`             | `Set-Location` / `cd`              | Change directory           |
+| `mkdir dir`      | `New-Item dir -ItemType Directory` | Create directory           |
+| `rmdir dir`      | `Remove-Item dir -Recurse`         | Remove directory           |
+| `touch file`     | `New-Item file`                    | Create empty file          |
+| `cp source dest` | `Copy-Item source dest`            | Copy files                 |
+| `mv source dest` | `Move-Item source dest`            | Move / rename              |
+| `rm file`        | `Remove-Item file`                 | Delete file                |
+| `rm -r dir`      | `Remove-Item dir -Recurse`         | Delete folder and contents |
+
+---
+
+## **📄 Viewing & Manipulating Files**
+
+| Bash               | PowerShell                                              | Description              |
+| ------------------ | ------------------------------------------------------- | ------------------------ |
+| `cat file`         | `Get-Content file`                                      | Show file content        |
+| `less file`        | `Get-Content file -Wait` *(or use `less` if installed)* | View file page by page   |
+| `head file`        | `Get-Content file -TotalCount 10`                       | First lines of file      |
+| `tail file`        | `Get-Content file -Tail 10`                             | Last lines of file       |
+| `wc -l file`       | `(Get-Content file).Count`                              | Count lines              |
+| `grep "text" file` | `Select-String "text" file`                             | Search for text in files |
+| `sort file`        | `Sort-Object`                                           | Sort content             |
+
+---
+
+## **🔍 Searching & Finding**
+
+| Bash                   | PowerShell                             | Description     |
+| ---------------------- | -------------------------------------- | --------------- |
+| `find . -name "*.txt"` | `Get-ChildItem -Recurse -Filter *.txt` | Find files      |
+| `which command`        | `Get-Command command`                  | Locate command  |
+| `locate file`          | `Get-ChildItem -Recurse`               | Search for file |
+
+---
+
+## **🔧 Processes & System**
+
+| Bash       | PowerShell                              | Description                                       |                               |
+| ---------- | --------------------------------------- | ------------------------------------------------- | ----------------------------- |
+| `ps`       | `Get-Process`                           | List processes                                    |                               |
+| `top`      | `Get-Process`                           | Process list (for real-time use, try `Get-Process | Sort-Object CPU -Descending`) |
+| `kill PID` | `Stop-Process -Id PID`                  | Kill process                                      |                               |
+| `uptime`   | `Get-Uptime`                            | System uptime                                     |                               |
+| `df -h`    | `Get-PSDrive`                           | Disk usage                                        |                               |
+| `free -h`  | `Get-CimInstance Win32_OperatingSystem` | Memory info                                       |                               |
+
+---
+
+## **🌐 Networking**
+
+| Bash                | PowerShell                            | Description              |
+| ------------------- | ------------------------------------- | ------------------------ |
+| `ping host`         | `Test-Connection host`                | Ping a host              |
+| `curl url`          | `Invoke-WebRequest url`               | HTTP request             |
+| `wget url`          | `Invoke-WebRequest url -OutFile file` | Download file            |
+| `ssh user@host`     | `ssh user@host`                       | SSH connection           |
+| `ifconfig` / `ip a` | `Get-NetIPAddress`                    | View network info        |
+| `netstat -tulnp`    | `Get-NetTCPConnection`                | Open ports & connections |
+
+---
+
+## **👤 Users & Permissions**
+
+| Bash              | PowerShell                       | Description             |
+| ----------------- | -------------------------------- | ----------------------- |
+| `whoami`          | `whoami`                         | Current user            |
+| `chmod 755 file`  | `icacls file`                    | Change file permissions |
+| `chown user file` | `icacls file /setowner user`     | Change file owner       |
+| `sudo command`    | `Start-Process pwsh -Verb RunAs` | Run as admin            |
+
+---
+
+## **📦 Package Management**
+
+| Bash                  | PowerShell                | Description      |
+| --------------------- | ------------------------- | ---------------- |
+| `apt install package` | `winget install package`  | Install software |
+| `yum install package` | `Install-Package package` | Install software |
+| `apt update`          | `winget upgrade`          | Update packages  |
+
+---
+
+## **🔗 Pipes & Redirection**
+
+| Bash          | PowerShell | Description     |           |             |
+| ------------- | ---------- | --------------- | --------- | ----------- |
+| `command1     | command2`  | `command1       | command2` | Pipe output |
+| `>`           | `>`        | Redirect output |           |             |
+| `>>`          | `>>`       | Append output   |           |             |
+| `2>/dev/null` | `2>$null`  | Redirect error  |           |             |
+
+---
+
+## **🧩 Misc / Helpful Commands**
+
+| Bash          | PowerShell            | Description             |
+| ------------- | --------------------- | ----------------------- |
+| `clear`       | `Clear-Host` / `cls`  | Clear screen            |
+| `history`     | `Get-History`         | Command history         |
+| `alias`       | `Set-Alias`           | Create shortcut command |
+| `man command` | `Get-Help command`    | Command help            |
+| `echo "text"` | `Write-Output "text"` | Print text              |
+
+---
+
+## ⚡ Notes & Tips
+
+1. **PowerShell is object-based**, not text-based like bash. Piping (`|`) passes objects instead of strings.
+2. **Case-insensitive**: Cmdlets and parameters in PowerShell are not case-sensitive.
+3. **Flags differ**: Linux flags like `ls -l` or `rm -rf` may not work directly in PowerShell.
+4. **Cross-platform**: PowerShell 7+ runs on Windows, Linux, and macOS.
+
+---
+
+If you want, I can also make a **one-page visual cheat sheet** with **icons, colors, and side-by-side commands** that’s easy to print and reference at a glance.
+
+Do you want me to do that?
